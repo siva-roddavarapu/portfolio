@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+/* ===== ROOT DESIGN TOKENS (DARK DEFAULT) ===== */
+:root {
+  /* 🎨 Colors */
+  --color-background: #0f172a;
+  --color-surface: #112240;
+  --color-surface-light: #1a2f50;
+
+  --color-text-primary: #ccd6f6;
+  --color-text-secondary: #8892b0;
+  --color-text-muted: #6b7280;
+
+  --color-accent: #64ffda;
+  --color-accent-soft: rgba(100, 255, 218, 0.1);
+
+  /* 🔤 Typography */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "Fira Code", monospace;
+
+  /* 🔠 Font Sizes */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+
+  /* 📏 Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+  --space-xl: 64px;
+
+  /* 🔘 Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* 🌑 Shadows */
+  --shadow-soft: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+}
+
+/* ===== LIGHT THEME ===== */
+[data-theme="light"] {
+  --color-background: #ffffff;
+  --color-surface: #f5f5f5;
+  --color-surface-light: #e5e7eb;
+
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-muted: #6b7280;
+
+  --color-accent: #0ea5e9;
+  --color-accent-soft: rgba(14, 165, 233, 0.1);
+}
+
+/* ===== Tailwind v4 Theme Mapping ===== */
+@theme {
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-surfaceLight: var(--color-surface-light);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+
+  --color-accent: var(--color-accent);
+
+  /* Font sizes */
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+}
+
+/* ===== Base styles ===== */
+html,
+body {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
