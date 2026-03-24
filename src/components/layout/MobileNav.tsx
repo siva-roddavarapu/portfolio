@@ -1,29 +1,32 @@
-// src/components/layout/MobileNav.tsx
 "use client";
 
 import { useState } from "react";
-import {ThemeToggle} from "@/components/common/ThemeToggle";
+import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { NAV_ITEMS } from "@/modules/navigation/constants/nav.constants";
-
+import { ProfileHeader } from "@/components/common/ProfileHeader";
 
 export const MobileNav = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth",
-    });
+    const container = document.getElementById("scroll-container");
+    const section = document.getElementById(id);
+
+    if (container && section) {
+      const containerRect = container.getBoundingClientRect();
+      const sectionRect = section.getBoundingClientRect();
+      const offset = sectionRect.top - containerRect.top + container.scrollTop;
+      container.scrollTo({ top: offset, behavior: "smooth" });
+    }
+
     setOpen(false);
   };
 
   return (
     <div className="md:hidden fixed top-0 left-0 w-full z-50">
       <div className="flex justify-between items-center px-6 py-4 bg-background border-b border-border">
-        <h1 className="font-bold">YourName</h1>
-
-        <button onClick={() => setOpen(!open)}>
-          ☰
-        </button>
+        <ProfileHeader />
+        <button onClick={() => setOpen(!open)}>☰</button>
       </div>
 
       {open && (
@@ -37,10 +40,9 @@ export const MobileNav = () => {
               {item.label}
             </button>
           ))}
-
           <ThemeToggle />
         </div>
       )}
     </div>
   );
-}
+};
