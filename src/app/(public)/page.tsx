@@ -1,8 +1,10 @@
+import { Hero } from "@/components/sections/hero/Hero";
+
 export default function HomePage() {
   return (
     <>
       <section id="hero" className="min-h-screen px-6 md:px-10 py-24">
-        Hero
+        <Hero />
       </section>
 
       <section id="projects" className="min-h-screen px-6 md:px-10 py-24">
