@@ -1,124 +1,191 @@
 "use client";
 
-import { RainbowField } from "@/components/animations/RainbowField";
-import { ScrambleText } from "@/components/animations/ScrambleText";
-import { useUser } from "@/modules/user/hooks/useUser";
-import { motion, useMotionValue } from "framer-motion";
-import { useEffect, useState } from "react";
+// src/components/sections/hero/Hero.tsx
+//
+// Layout shell only. Zero hardcoded content.
+// All copy comes from useHero() → edit src/modules/hero/hooks/useHero.ts
 
-/* ================= TYPES ================= */
+import { motion } from "framer-motion";
+import { useHero } from "@/modules/hero/hooks/useHero";
+import { AmbientParticles } from "@/components/sections/hero/components/AmbientParticles";
+import { MagneticButton } from "@/components/sections/hero/components/MagneticButton";
 
-interface HeroProps {
-  resumeUrl?: string;
-}
+/* ─────────────────────────────────────────────────────────────
+   ANIMATION VARIANTS
+───────────────────────────────────────────────────────────── */
 
-/* ================= ANIMATIONS ================= */
-
-const container = {
+const orchestrate = {
   hidden: {},
+  show: { transition: { staggerChildren: 0.13, delayChildren: 0.1 } },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
   show: {
-    transition: {
-      staggerChildren: 0.12,
-    },
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] as const },
   },
 };
 
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
+const fadeIn = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { duration: 1, ease: "easeInOut" as const },
+  },
 };
 
-const highlights = [
-  "AI-powered platforms",
-  "high-performance systems",
-  "scalable SaaS applications",
-];
+/* ─────────────────────────────────────────────────────────────
+   STACK CHIP
+───────────────────────────────────────────────────────────── */
 
-/* ================= COMPONENT ================= */
+const StackChip = ({ label, delay }: { label: string; delay: number }) => (
+  <motion.span
+    className="inline-block text-[11px] font-mono px-2.5 py-1 rounded-full cursor-default"
+    style={{
+      border: "1px solid rgba(var(--color-accent-rgb), 0.18)",
+      color: "var(--color-text-secondary)",
+      background: "rgba(var(--color-accent-rgb), 0.03)",
+    }}
+    initial={{ opacity: 0, y: 8 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+    whileHover={{
+      color: "var(--color-accent)",
+      borderColor: "rgba(var(--color-accent-rgb), 0.55)",
+      background: "rgba(var(--color-accent-rgb), 0.07)",
+      scale: 1.04,
+      transition: { duration: 0.1 },
+    }}
+  >
+    {label}
+  </motion.span>
+);
 
-export const Hero = ({ resumeUrl = "/resume.pdf" }: HeroProps) => {
-  const user = useUser();
+/* ─────────────────────────────────────────────────────────────
+   HERO
+───────────────────────────────────────────────────────────── */
 
-  /* ===== Rotating Text ===== */
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % highlights.length);
-    }, 2500);
-
-    return () => clearInterval(interval);
-  }, []);
+export const Hero = () => {
+  const { eyebrow, headline, paragraphs, stack, resumeUrl } = useHero();
 
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col items-center overflow-hidden">
-        <RainbowField />
-      {/* ================= CONTENT ================= */}
+    <section
+      id="hero"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
+    >
+      {/* Background: particles + dot grid */}
+      <AmbientParticles />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(var(--color-accent-rgb), 0.06) 1px, transparent 1px)",
+          backgroundSize: "36px 36px",
+          maskImage:
+            "radial-gradient(ellipse 80% 80% at 20% 50%, black 20%, transparent 100%)",
+        }}
+      />
+
+      {/* Main content */}
       <motion.div
-        variants={container}
+        variants={orchestrate}
         initial="hidden"
         animate="show"
         className="relative z-10 max-w-2xl"
       >
-        {/* Intro */}
-        <motion.p variants={item} className="text-accent text-sm mb-4">
-          Hi, my name is
+        {/* ── Eyebrow label ── */}
+        <motion.p
+          variants={fadeIn}
+          className="flex items-center gap-3 text-xs font-mono tracking-[0.2em] uppercase mb-8"
+          style={{ color: "var(--color-accent)" }}
+        >
+          <span
+            style={{
+              display: "inline-block",
+              width: 40,
+              height: 1,
+              background: "var(--color-accent)",
+              flexShrink: 0,
+            }}
+          />
+          {eyebrow}
         </motion.p>
 
-        {/* Name (SCRAMBLE) */}
-        <motion.h1 variants={item} className="text-5xl sm:text-7xl font-bold tracking-tight">
-          <ScrambleText text={user.name} speed={100} />
-        </motion.h1>
-
-        {/* Role */}
-        <motion.h2 variants={item} className="text-2xl sm:text-4xl text-text-secondary mt-2">
-          {user.role}
+        {/* ── Headline ── */}
+        <motion.h2
+          variants={fadeUp}
+          className="font-bold leading-[1.1] tracking-tight mb-10"
+          style={{
+            fontSize: "clamp(1.9rem, 4.5vw, 3.2rem)",
+            color: "var(--color-text-primary)",
+            fontFamily: "'Sora', 'DM Sans', system-ui, sans-serif",
+          }}
+        >
+          {headline}
         </motion.h2>
 
-        {/* Highlight */}
-        <motion.h3
-          key={index}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="text-lg text-accent mt-4"
-        >
-          I build {highlights[index]}
-        </motion.h3>
+        {/* ── Paragraphs ── */}
+        <div className="space-y-5 mb-10">
+          {paragraphs.map((para, i) => (
+            <motion.p
+              key={i}
+              variants={fadeUp}
+              className="text-[15px] leading-[1.9] max-w-[58ch]"
+              style={{ color: "var(--color-text-secondary)" }}
+            >
+              {para}
+            </motion.p>
+          ))}
+        </div>
 
-        {/* Description */}
-        <motion.p variants={item} className="mt-6 text-text-secondary max-w-xl leading-relaxed">
-          I engineer high-performance, AI-powered web platforms used by thousands of users, focusing
-          on scalability, clean architecture, and real-world impact.
-        </motion.p>
+        {/* ── Stack pills ── */}
+        <motion.div variants={fadeIn} className="flex flex-wrap gap-2 mb-12">
+          {stack.map((tech, i) => (
+            <StackChip key={tech} label={tech} delay={0.5 + i * 0.05} />
+          ))}
+        </motion.div>
 
-        {/* CTA Buttons */}
-        <motion.div variants={item} className="mt-8 flex flex-wrap gap-4">
-          {/* Projects */}
-          <a
-            href="#projects"
-            className="px-6 py-3 border border-accent text-accent rounded-md hover:bg-accent-soft transition"
-          >
-            Explore my Work
-          </a>
+        {/* ── Gradient rule ── */}
+        <motion.div
+          variants={fadeIn}
+          className="mb-8 h-px"
+          style={{
+            maxWidth: 240,
+            background:
+              "linear-gradient(90deg, rgba(var(--color-accent-rgb), 0.35), transparent)",
+          }}
+        />
 
-          {/* Resume (Shimmer) */}
-          <a
-            href={resumeUrl}
-            download
-            className="relative px-6 py-3 rounded-md border border-accent text-accent overflow-hidden group"
-          >
-            <span className="relative z-10">Download Resume</span>
+        {/* ── CTAs ── */}
+        <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3">
+          <MagneticButton href="#experience" variant="solid">
+            <motion.span
+              animate={{ x: [0, 3, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              ↗
+            </motion.span>
+            View my work
+          </MagneticButton>
 
-            <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition">
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/40 to-transparent animate-shimmer" />
+          <MagneticButton href={resumeUrl} download variant="outline">
+            ↓ Resume
+          </MagneticButton>
+
+          <MagneticButton href="#contact" variant="ghost">
+            <span className="flex items-center gap-1.5">
+              Get in touch
+              <motion.span
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 1.6, repeat: Infinity }}
+              >
+                →
+              </motion.span>
             </span>
-          </a>
-
-          {/* Contact */}
-          <a href="#contact" className="px-6 py-3 text-text-secondary hover:text-accent transition">
-            Let’s Connect →
-          </a>
+          </MagneticButton>
         </motion.div>
       </motion.div>
     </section>

@@ -14,7 +14,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
 
       {/* Single scroll container for both mobile and desktop */}
       <main id="scroll-container" className="flex-1 h-screen overflow-y-auto">
-        <div className="max-w-3xl mx-auto">{children}</div>
+        <div className="mx-auto">{children}</div>
       </main>
 
       {/* Mobile Nav overlay */}

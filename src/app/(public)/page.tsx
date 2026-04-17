@@ -1,26 +1,22 @@
+// src/app/(public)/page.tsx
+
 import { Hero } from "@/components/sections/hero/Hero";
+import { Experience } from "@/components/sections/experience/Experience";
+import { Projects } from "@/components/sections/projects/Projects";
 
 export default function HomePage() {
   return (
     <>
-      <section id="hero" className="min-h-screen px-6 md:px-10 py-24">
+      <section id="hero" className="min-h-screen px-6 md:px-10 pt-24 md:pt-20">
         <Hero />
       </section>
 
-      <section id="projects" className="min-h-screen px-6 md:px-10 py-24">
-        Projects
+      <section id="experience" className="px-6 md:px-10">
+        <Experience />
       </section>
 
-      <section id="skills" className="min-h-screen px-6 md:px-10 py-24">
-        Skills
-      </section>
-
-      <section id="blog" className="min-h-screen px-6 md:px-10 py-24">
-        Blog
-      </section>
-
-      <section id="contact" className="min-h-screen px-6 md:px-10 py-24">
-        Contact
+      <section id="projects" className="px-6 md:px-10">
+        <Projects />
       </section>
     </>
   );

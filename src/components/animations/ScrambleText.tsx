@@ -1,10 +1,17 @@
+// src/components/animations/ScrambleText.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-export const ScrambleText = ({ text, speed = 100 }: { text: string; speed: number }) => {
+interface ScrambleTextProps {
+  text: string;
+  speed?: number;
+  className?: string;
+}
+
+export const ScrambleText = ({ text, speed = 100, className }: ScrambleTextProps) => {
   const [output, setOutput] = useState(text);
 
   useEffect(() => {
@@ -15,6 +22,7 @@ export const ScrambleText = ({ text, speed = 100 }: { text: string; speed: numbe
         text
           .split("")
           .map((char, i) => {
+            if (char === " ") return " "; // preserve spaces
             if (i < iteration) return text[i];
             return CHARS[Math.floor(Math.random() * CHARS.length)];
           })
@@ -30,7 +38,7 @@ export const ScrambleText = ({ text, speed = 100 }: { text: string; speed: numbe
     }, speed);
 
     return () => clearInterval(interval);
-  }, [text]);
+  }, [text, speed]); // speed is now in the dep array
 
-  return <span>{output}</span>;
+  return <span className={className}>{output}</span>;
 };

@@ -1,3 +1,5 @@
+/* src/styles/globals.css */
+
 @import "tailwindcss";
 
 /* ===== ROOT DESIGN TOKENS (DARK DEFAULT) ===== */
@@ -12,7 +14,19 @@
   --color-text-muted: #6b7280;
 
   --color-accent: #64ffda;
+  --color-accent-rgb: 100, 255, 218;
   --color-accent-soft: rgba(100, 255, 218, 0.1);
+
+  /* Neutral card tokens — theme-aware, no accent bleed */
+  --color-card-bg: rgba(17, 34, 64, 0.6);
+  --color-card-bg-active: rgba(23, 47, 78, 0.9);
+  --color-card-border: rgba(148, 163, 184, 0.1);
+  --color-card-border-active: rgba(148, 163, 184, 0.25);
+  --color-card-border-hover: rgba(148, 163, 184, 0.18);
+  --color-metric-bg: rgba(148, 163, 184, 0.08);
+  --color-metric-border: rgba(148, 163, 184, 0.14);
+  --color-metric-value: #ccd6f6;
+  --color-divider: rgba(148, 163, 184, 0.1);
 
   /* 🔤 Typography */
   --font-sans: "Inter", system-ui, sans-serif;
@@ -54,7 +68,19 @@
   --color-text-muted: #6b7280;
 
   --color-accent: #0ea5e9;
+  --color-accent-rgb: 14, 165, 233;
   --color-accent-soft: rgba(14, 165, 233, 0.1);
+
+  /* Neutral card tokens — light mode */
+  --color-card-bg: rgba(245, 245, 245, 0.8);
+  --color-card-bg-active: rgba(255, 255, 255, 1);
+  --color-card-border: rgba(17, 24, 39, 0.1);
+  --color-card-border-active: rgba(17, 24, 39, 0.22);
+  --color-card-border-hover: rgba(17, 24, 39, 0.16);
+  --color-metric-bg: rgba(17, 24, 39, 0.05);
+  --color-metric-border: rgba(17, 24, 39, 0.1);
+  --color-metric-value: #111827;
+  --color-divider: rgba(17, 24, 39, 0.08);
 }
 
 /* ===== Tailwind v4 Theme Mapping ===== */
@@ -68,6 +94,7 @@
   --color-text-muted: var(--color-text-muted);
 
   --color-accent: var(--color-accent);
+  --color-accent-soft: var(--color-accent-soft);
 
   /* Font sizes */
   --text-xs: var(--text-xs);
@@ -87,6 +114,8 @@ body {
   font-family: var(--font-sans);
 }
 
+/* ===== Animations ===== */
+
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
@@ -98,4 +127,19 @@ body {
 
 .animate-shimmer {
   animation: shimmer 1.6s infinite;
+}
+
+/* Hero ambient particles — zero JS cost */
+@keyframes particle-drift {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy));
+    opacity: 0.4;
+  }
 }

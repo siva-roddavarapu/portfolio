@@ -1,7 +1,9 @@
+
 export enum SectionId {
-  HERO = "hero",
-  PROJECTS = "projects",
-  SKILLS = "skills",
-  BLOG = "blog",
-  CONTACT = "contact",
+  HERO       = "hero",
+  EXPERIENCE = "experience",
+  SKILLS     = "skills",
+  BLOG       = "blog",
+  CONTACT    = "contact",
 }
+ 

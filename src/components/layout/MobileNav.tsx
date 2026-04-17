@@ -1,3 +1,6 @@
+// src/components/layout/MobileNav.tsx
+// No changes to logic — ProfileHeader already pulls from usePortfolio now,
+// so this file only needs its own imports to stay clean.
 "use client";
 
 import { useState } from "react";
@@ -24,18 +27,44 @@ export const MobileNav = () => {
 
   return (
     <div className="md:hidden fixed top-0 left-0 w-full z-50">
-      <div className="flex justify-between items-center px-6 py-4 bg-background border-b border-border">
+      <div
+        className="flex justify-between items-center px-6 py-4 border-b"
+        style={{
+          background: "var(--color-background)",
+          borderColor: "rgba(var(--color-accent-rgb), 0.1)",
+        }}
+      >
+        {/* ProfileHeader reads firstName + lastName + role from usePortfolio */}
         <ProfileHeader />
-        <button onClick={() => setOpen(!open)}>☰</button>
+        <button
+          onClick={() => setOpen(!open)}
+          style={{ color: "var(--color-text-secondary)" }}
+          aria-label="Toggle menu"
+        >
+          {open ? "✕" : "☰"}
+        </button>
       </div>
 
       {open && (
-        <div className="bg-surface px-6 py-6 space-y-4 shadow-soft">
+        <div
+          className="px-6 py-6 space-y-4"
+          style={{
+            background: "var(--color-surface)",
+            boxShadow: "var(--shadow-soft)",
+          }}
+        >
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}
               onClick={() => scrollTo(item.id)}
-              className="block w-full text-left text-text-secondary hover:text-accent"
+              className="block w-full text-left transition-colors duration-200"
+              style={{ color: "var(--color-text-secondary)" }}
+              onMouseEnter={(e) =>
+                ((e.target as HTMLElement).style.color = "var(--color-accent)")
+              }
+              onMouseLeave={(e) =>
+                ((e.target as HTMLElement).style.color = "var(--color-text-secondary)")
+              }
             >
               {item.label}
             </button>

@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 
+
 import { GlowBackground } from "@/components/ui/GlowBackground";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Krishi Portfolio",
-  description: "Portfolio + SaaS Platform",
+  title: "Siva Vasanth Roddavarapu",
+  description: "Senior Software Engineer — React, Next.js, AI",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
